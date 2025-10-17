@@ -13,25 +13,28 @@ class splashscreen extends StatefulWidget {
 
 class _splashscreenState extends State<splashscreen> {
   @override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    Timer(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Onboarding1()), // Replace with your home screen
-      );
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Timer(const Duration(seconds: 2), () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+              builder: (context) =>
+                  const Onboarding1()), // Replace with your home screen
+        );
+      });
     });
-  });
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: Center(
-        child: SvgPicture.asset('assets/asiedua.svg',
-        width:120 ,
+        child: SvgPicture.asset(
+          'assets/asiedua.svg',
+          width: 190,
         ),
-        
       ),
     );
   }
