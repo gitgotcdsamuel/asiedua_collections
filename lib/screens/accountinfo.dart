@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:openfashion/screens/auth/login.dart';
-import 'package:openfashion/screens/products/menu.dart';
+//import 'package:openfashion/screens/products/menu.dart';
 import 'package:openfashion/widget/bottombar.dart';
 import 'package:openfashion/widget/enum.dart';
 
@@ -54,27 +54,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    MyMenu(), // Ensure you have the MyMenu widget
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
-            );
-          },
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),
+        
         title: Center(
           child: SvgPicture.asset(
             'assets/asiedua.svg', // Replace with your SVG logo path

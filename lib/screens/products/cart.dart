@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:openfashion/screens/home.dart';
+import 'package:openfashion/home/home.dart';
 import 'package:openfashion/screens/products/shipping.dart';
 import 'package:openfashion/widget/bottombar.dart';
 import 'package:openfashion/widget/cartwidget.dart';
@@ -59,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
             Navigator.of(context).push(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    const Home(),
+                    const HomeScreen(),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return FadeTransition(
                     opacity: animation,

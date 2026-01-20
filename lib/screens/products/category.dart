@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:openfashion/screens/home.dart';
+import 'package:openfashion/home/home.dart';
 import 'package:openfashion/widget/product_card.dart'; // Assuming you have a separate ProductCard widget
 import 'package:openfashion/widget/bottombar.dart'; // Import your BottomNavBar widget
 import 'package:openfashion/widget/enum.dart'; // Import the enum for selected tabs
@@ -55,7 +55,7 @@ class _CategoryState extends State<p_category> {
             Navigator.of(context).push(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    const Home(),
+                    const HomeScreen(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(
@@ -99,81 +99,7 @@ class _CategoryState extends State<p_category> {
               ),
               SizedBox(height: 16),
               // Wrap widget to display products
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product1.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '29.99', id: '1',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product2.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '39.99', id: '2',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product1.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '29.99', id: '3',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product4.png',
-                      title: 'Oblong bag',
-                      price: '59.99', id: '4',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product3.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '49.99', id: '3',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product2.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '39.99', id: '2',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product4.png',
-                      title: 'Oblong bag',
-                      price: '59.99', id: '4',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product3.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '49.99', id: '3',
-                    ),
-                  ),
-                  // Repeat the same product data as needed
-                ],
-              ),
-              const SizedBox(height: 30),
-
-              SvgPicture.asset('assets/p_end.svg')
-            ],
+            ]
           ),
         ),
       ),

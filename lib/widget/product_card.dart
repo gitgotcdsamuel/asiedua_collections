@@ -1,80 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:openfashion/widget/ProductDetailPage.dart'; // Correct import
-class ProductCard extends StatelessWidget {
-  final String imagePath;
-  final String title;
-  final String price;
-  final String id; // Add ID field
+import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 
-  const ProductCard({
-    super.key,
-    required this.imagePath,
-    required this.title,
-    required this.price,
-    required this.id, // Initialize ID
-  });
+// lib/widgets/product_card.dart (partial update)
+class ProductCard extends StatelessWidget {
+  late final String imagePath;
+  // ... other properties
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailPage(
-              imagePath: imagePath,
-              title: title,
-              price: price,
-              description: SvgPicture.asset('assets/p_detials.svg'),
-              id: id, // Pass the ID
+    return Container(
+      // ... existing container properties
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Update image widget
+          Container(
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.grey[200],
             ),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              child: Image.asset(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
                 imagePath,
                 fit: BoxFit.cover,
-                width: double.infinity,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Icon(Icons.broken_image, size: 50),
+                  );
+                },
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: 'TenorSans',
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    '\$$price',
-                    style: const TextStyle(
-                      fontFamily: 'TenorSans',
-                      fontSize: 17,
-                      color: Color(0xffDD8560),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          // ... rest of the code
+        ],
       ),
     );
   }

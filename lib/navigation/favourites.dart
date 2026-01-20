@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:openfashion/screens/home.dart';
+import 'package:openfashion/home/home.dart';
 import 'package:openfashion/widget/bottombar.dart';
 import 'package:openfashion/widget/favourites_manager.dart';
 import 'package:openfashion/widget/enum.dart';
@@ -57,7 +57,7 @@ class _ProductFavoriteState extends State<ProductFavorite> {
           onPressed: () {
             Navigator.of(context).push(
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => Home(),
+                pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

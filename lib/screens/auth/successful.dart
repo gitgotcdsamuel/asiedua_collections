@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openfashion/screens/home.dart';
+import 'package:openfashion/home/home.dart';
 
 class SuccessfulPage extends StatelessWidget {
   const SuccessfulPage({super.key});
@@ -28,7 +28,7 @@ class SuccessfulPage extends StatelessWidget {
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            Home(),
+                            HomeScreen(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return FadeTransition(

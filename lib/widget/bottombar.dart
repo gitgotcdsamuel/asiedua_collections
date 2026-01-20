@@ -3,7 +3,7 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:iconly/iconly.dart'; // Assuming you are using the Iconly package
 import 'package:openfashion/navigation/favourites.dart';
 import 'package:openfashion/screens/accountinfo.dart';
-import 'package:openfashion/screens/home.dart'; // Import Profile Screen
+import 'package:openfashion/home/home.dart'; // Import Profile Screen
 import 'package:openfashion/screens/products/cart.dart';
 import 'package:openfashion/screens/products/category.dart';
 import 'package:openfashion/widget/enum.dart';
@@ -37,7 +37,7 @@ class BottomNavBar extends StatelessWidget {
             Navigator.of(context).pushReplacement(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    Home(), // Replace with your HomeScreen widget
+                    HomeScreen(), // Replace with your HomeScreen widget
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

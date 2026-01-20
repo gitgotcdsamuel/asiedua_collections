@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:openfashion/screens/home.dart';
+import 'package:openfashion/home/home.dart';
 import 'package:openfashion/widget/bottombar.dart';
 import 'package:openfashion/widget/cartwidget.dart';
 import 'package:openfashion/widget/enum.dart';
@@ -99,7 +99,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Home(),
+                builder: (context) => HomeScreen(),
               ),
             );
           },
@@ -171,10 +171,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ElevatedButton(
                 onPressed: () {
                   final product = CartItem(
-                    id: widget.id, // Pass the unique ID
+                    id: widget.id,
                     title: widget.title,
                     imagePath: widget.imagePath,
                     price: double.parse(widget.price),
+                    productId: '',
+                    name: '',
+                    imageUrl: '',
                   );
                   Provider.of<CartState>(context, listen: false)
                       .addToCart(product);
@@ -291,50 +294,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               const SizedBox(height: 30),
               Center(child: SvgPicture.asset('assets/p_title.svg')),
               const SizedBox(height: 30),
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product1.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '29.99',
-                      id: 'product1',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product2.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '39.99',
-                      id: 'product2',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product3.png',
-                      title: '21WN reversible angora cardigan',
-                      price: '49.99',
-                      id: 'product3',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    child: ProductCard(
-                      imagePath: 'assets/product4.png',
-                      title: 'Oblong bag',
-                      price: '59.99',
-                      id: 'product4',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              SvgPicture.asset('assets/p_end.svg')
+          
             ],
           ),
         ),

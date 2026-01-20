@@ -15,7 +15,7 @@ class CartItem {
     required this.title,
     required this.imagePath,
     required this.price,
-    this.quantity = 1, // Default quantity is 1
+    this.quantity = 1, required String productId, required String name, required String imageUrl, String? selectedSize, String? selectedColor, // Default quantity is 1
   });
 }
 

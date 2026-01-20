@@ -72,7 +72,7 @@ class Onboarding3 extends StatelessWidget {
                           height: screenHeight *
                               0.02), // Space between text elements
                       Text(
-                        'QuickMart employs industry-leading encryption and trusted payment gateways to safeguard your financial information.',
+                        'Asiedua Collections employs industry-leading encryption and trusted payment gateways to safeguard your financial information.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
