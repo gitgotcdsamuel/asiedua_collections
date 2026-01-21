@@ -3,13 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CompactCategorySlider extends StatelessWidget {
+class CompactCategorySlider extends StatefulWidget {
   final Function(String) onCategoryTap;
   
   const CompactCategorySlider({
     super.key,
     required this.onCategoryTap,
   });
+
+  @override
+  State<CompactCategorySlider> createState() => _CompactCategorySliderState();
+}
+
+class _CompactCategorySliderState extends State<CompactCategorySlider> {
+  final ScrollController _scrollController = ScrollController();
+  int _currentIndex = 0;
+  double _scrollOffset = 0.0;
 
   final List<Map<String, dynamic>> _categories = const [
     {
@@ -63,6 +72,45 @@ class CompactCategorySlider extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_updateCurrentIndex);
+  }
+
+  void _updateCurrentIndex() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth < 360 ? 88.0 : 100.0;
+    const separatorWidth = 16.0;
+    const padding = 20.0;
+    
+    // Calculate visible items per screen
+    final itemWidth = cardWidth + separatorWidth;
+    final visibleItemsCount = (screenWidth - 2 * padding) / itemWidth;
+    
+    // Calculate current index based on scroll position
+    final offset = _scrollController.offset;
+    final newIndex = (offset / itemWidth).round();
+    
+    // Ensure index is within bounds
+    final maxIndex = (_categories.length - visibleItemsCount).ceil();
+    final clampedIndex = newIndex.clamp(0, maxIndex);
+    
+    if (_currentIndex != clampedIndex) {
+      setState(() {
+        _currentIndex = clampedIndex;
+        _scrollOffset = offset;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_updateCurrentIndex);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     
@@ -109,7 +157,7 @@ class CompactCategorySlider extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.04),
+                    color: Colors.black.withOpacity(0.04),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -119,14 +167,14 @@ class CompactCategorySlider extends StatelessWidget {
                         style: GoogleFonts.raleway(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black.withValues(alpha: 0.6),
+                          color: Colors.black.withOpacity(0.6),
                         ),
                       ),
                       const SizedBox(width: 4),
                       Icon(
                         Icons.chevron_right,
                         size: 16,
-                        color: Colors.black.withValues(alpha: 0.4),
+                        color: Colors.black.withOpacity(0.4),
                       ),
                     ],
                   ),
@@ -139,30 +187,79 @@ class CompactCategorySlider extends StatelessWidget {
           // Responsive Horizontal Category List with proper scrolling
           SizedBox(
             height: 140, // Slightly taller to accommodate shadows
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (scrollNotification) {
-                return true;
+            child: ListView.separated(
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              physics: const BouncingScrollPhysics(),
+              itemCount: _categories.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 16),
+              itemBuilder: (context, index) {
+                final category = _categories[index];
+                return _CategoryCard(
+                  category: category,
+                  cardWidth: cardWidth,
+                  containerSize: containerSize,
+                  iconSize: iconSize,
+                  onTap: () => widget.onCategoryTap(category['name']),
+                );
               },
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                physics: const BouncingScrollPhysics(),
-                itemCount: _categories.length,
-                separatorBuilder: (context, index) => const SizedBox(width: 16),
-                itemBuilder: (context, index) {
-                  final category = _categories[index];
-                  return _CategoryCard(
-                    category: category,
-                    cardWidth: cardWidth,
-                    containerSize: containerSize,
-                    iconSize: iconSize,
-                    onTap: () => onCategoryTap(category['name']),
-                  );
-                },
-              ),
             ),
           ),
+          
+          // Dot Indicator
+          const SizedBox(height: 16),
+          _buildDotIndicator(screenWidth, cardWidth),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDotIndicator(double screenWidth, double cardWidth) {
+    const separatorWidth = 16.0;
+    const padding = 20.0;
+    final itemWidth = cardWidth + separatorWidth;
+    final visibleItemsCount = (screenWidth - 2 * padding) / itemWidth;
+    final totalDots = (_categories.length - visibleItemsCount + 1).ceil().clamp(1, _categories.length);
+    
+    // If all items fit on screen, don't show dots
+    if (visibleItemsCount >= _categories.length) {
+      return const SizedBox.shrink();
+    }
+    
+    return SizedBox(
+      height: 12,
+      child: Center(
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: totalDots,
+          itemBuilder: (context, index) {
+            final isActive = index == _currentIndex;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              width: isActive ? 24.0 : 8.0,
+              height: 8.0,
+              decoration: BoxDecoration(
+                color: isActive 
+                    ? _categories[index.clamp(0, _categories.length - 1)]['color'] as Color
+                    : Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(4),
+                boxShadow: isActive ? [
+                  BoxShadow(
+                    color: _categories[index.clamp(0, _categories.length - 1)]['color'].withOpacity(0.5) as Color,
+                    blurRadius: 4,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 1),
+                  ),
+                ] : null,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,10 +1,12 @@
-// lib/home/screens/home_screen.dart
+// lib/home/screens/home_screen.dart (updated)
 import 'package:flutter/material.dart';
 import 'package:openfashion/home/widgets/category_drawer.dart';
 import 'package:openfashion/home/widgets/category_slider_widget.dart';
+
 import 'package:openfashion/home/widgets/custom_app_bar.dart';
 import 'package:openfashion/home/widgets/hero_section.dart';
 import 'package:openfashion/home/widgets/newsletter_section.dart';
+import 'package:openfashion/home/widgets/new_arrivals.dart'; // Add this import
 
 import 'package:openfashion/home/widgets/category_pages.dart';
 import 'package:openfashion/home/widgets/pages/accessories.dart';
@@ -111,6 +113,13 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverToBoxAdapter(
             child: CompactCategorySlider(
               onCategoryTap: _onCategorySelected,
+            ),
+          ),
+
+          // New Arrivals Section
+          SliverToBoxAdapter(
+            child: NewArrivals(
+              onCategorySelected: _onCategorySelected, onProductTap: (String productId, Map<String, dynamic> product) {  }, // Pass the same function
             ),
           ),
 
